@@ -1,0 +1,38 @@
+# Credenciales y configuración sensible
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets/
+
+# Datos de pacientes, RIPS y exportes — nunca en el repositorio
+data/
+datos/
+exportes/
+exports/
+*.rips
+*.rips.txt
+*.csv
+*.xlsx
+*.xls
+*.json.gz
+
+# Dependencias y entornos
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Artefactos de build y logs
+dist/
+build/
+*.log
+
+# Sistema operativo / editor
+.DS_Store
+.vscode/
+.idea/
