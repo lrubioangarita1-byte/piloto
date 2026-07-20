@@ -1,0 +1,29 @@
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+*credential*
+*credentials*
+*.pem
+*.key
+
+# Data exports and patient data — never commit
+/data/
+/exports/
+/rips/
+*.rips
+*paciente*
+*historia_clinica*
+*hc_*
+*.bak
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS/editor
+.DS_Store
+*.swp
