@@ -14,6 +14,9 @@ con la comida.
   realidades sobre la relación con la comida.
 - **Videos** (`videos.html`): charlas y guías en video (ver más abajo cómo
   publicar una nueva).
+- **Guías prácticas** (`guias.html`): guías descargables de pago (autoconocimiento,
+  riesgo de TCA, reconocimiento por áreas, hábitos realistas). Estructura lista,
+  pendiente de activar los pagos (ver más abajo).
 - **Habla con alguien** (`hablar.html`): formulario para agendar una primera
   conversación con un profesional. El formulario envía correos reales (ver
   más abajo cómo activarlo).
@@ -31,13 +34,17 @@ con la comida.
 │   └── imagen-corporal-autoestima.html
 ├── recursos.html
 ├── videos.html
+├── guias.html
 ├── hablar.html
 ├── sobre-nosotros.html
 ├── css/styles.css
+├── assets/team/          # foto(s) de perfil usadas en Sobre nosotros
 └── js/
-    ├── main.js          # navegación móvil + envío del formulario
+    ├── main.js           # navegación móvil + envío del formulario
     ├── videos.js         # arma la página de videos
-    └── videos-data.js    # lista de videos editable (ver abajo)
+    ├── videos-data.js    # lista de videos editable (ver abajo)
+    ├── guias.js          # arma la página de guías prácticas
+    └── guias-data.js     # lista de guías editable, con su link de pago
 ```
 
 ## Cómo verlo localmente
@@ -99,6 +106,71 @@ está en `js/videos-data.js`. No hace falta tocar HTML ni CSS:
 
 Mientras el array esté vacío, la página muestra un mensaje de "muy pronto"
 en lugar de una grilla vacía.
+
+## Cómo habilitar los pagos de las guías prácticas (todavía no activado)
+
+`guias.html` ya está preparado para vender guías, pero **hoy no hay ningún
+cobro activo** — el array `GUIAS` en `js/guias-data.js` está vacío, así que
+la página solo muestra el mensaje de "Próximamente". Para activarlo no hay
+que tocar código: solo hay que elegir una plataforma de pagos, crear el
+producto ahí, y pegar el link de pago que te den en `linkPago`.
+
+Estas son las dos formas más simples de recibir pagos sin programar un
+backend propio (el dinero llega directo a tu cuenta bancaria o PayPal, tú
+eliges cuál):
+
+### Opción 1 — Gumroad (recomendada para empezar)
+
+La más simple: te entrega el archivo al comprador automáticamente, sin que
+tengas que hacer nada manual por cada venta.
+
+1. Crea una cuenta en [gumroad.com](https://gumroad.com) con tu correo.
+2. Verifica tu identidad y conecta tu cuenta bancaria o PayPal para recibir
+   los pagos (te lo pide Gumroad la primera vez que configuras cobros).
+3. Crea un producto nuevo: sube el PDF de la guía, ponle nombre, descripción
+   y precio.
+4. Gumroad te da un link de pago único para ese producto (algo como
+   `https://tunombre.gumroad.com/l/nombre-guia`).
+5. Copia ese link y pégalo en `js/guias-data.js`, en el campo `linkPago` de
+   esa guía.
+6. Gumroad te transfiere el dinero de las ventas a tu cuenta según su
+   calendario de pagos (por defecto, semanal), descontando su comisión.
+
+### Opción 2 — Stripe Payment Links
+
+Comisión más baja que Gumroad, pero la entrega del archivo al comprador no
+es automática por defecto: después de cada pago tendrías que enviar tú
+misma el PDF por correo (viable si son pocas ventas; para automatizarlo más
+adelante se puede conectar Stripe con Zapier o un pequeño backend).
+
+1. Crea una cuenta en [stripe.com](https://stripe.com) y completa la
+   verificación de tu negocio/cuenta bancaria.
+2. En el panel de Stripe, ve a "Payment Links" → "Crear nuevo".
+3. Define el producto (nombre, precio) y guarda el link generado.
+4. Pega ese link en `linkPago` en `js/guias-data.js`.
+5. Stripe deposita el dinero de las ventas en tu cuenta bancaria (por
+   defecto cada 2 días hábiles en la mayoría de países), descontando su
+   comisión (~2.9% + costo fijo por transacción).
+
+### Una vez que tengas el link
+
+Edita `js/guias-data.js` así (ejemplo con datos reales):
+
+```js
+const GUIAS = [
+  {
+    titulo: "Guía de autoconocimiento: tu relación con la comida",
+    descripcion: "Ejercicios guiados para identificar patrones y señales de alerta.",
+    precio: "15 USD",
+    formato: "PDF descargable",
+    linkPago: "https://tunombre.gumroad.com/l/autoconocimiento",
+  },
+];
+```
+
+En cuanto guardes el archivo, la tarjeta en `guias.html` deja de decir
+"Próximamente" y muestra un botón real de "Comprar guía" que lleva a esa
+página de pago.
 
 ## Notas
 
