@@ -822,6 +822,129 @@ section {
 }
 
 /* =========================================================
+   Herramientas (notas de audio situacionales)
+   ========================================================= */
+.tool-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.tool-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.tool-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  padding: 1.3rem 1.6rem;
+  font-family: inherit;
+}
+
+.tool-situation {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--color-primary-dark);
+  margin: 0;
+}
+.tool-situation:before { content: "“"; }
+.tool-situation:after { content: "”"; }
+
+.tool-meta {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.tool-duration {
+  font-size: 0.8rem;
+  color: var(--color-text-soft);
+  white-space: nowrap;
+}
+
+.tool-play {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.tool-card.is-open .tool-play { background: var(--color-primary); }
+.tool-card.is-open .tool-play svg path { fill: #fff; }
+
+.tool-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+}
+.tool-card.is-open .tool-panel { max-height: 220px; }
+
+.tool-panel-inner {
+  padding: 0 1.6rem 1.5rem;
+}
+.tool-panel-inner p {
+  color: var(--color-text-soft);
+  font-size: 0.94rem;
+  margin: 0 0 1rem;
+}
+.tool-panel-inner audio {
+  width: 100%;
+}
+
+.tool-pending {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-accent-dark);
+  background: #fdf3ea;
+  border: 1px solid #f0d9bd;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+}
+
+/* Chips de ejemplo en el hero */
+.mini-prompt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin: 1.4rem 0 1.6rem;
+}
+.mini-prompt {
+  display: block;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font-size: 0.92rem;
+  color: var(--color-primary-dark);
+  text-decoration: none;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.mini-prompt:before { content: "“"; }
+.mini-prompt:after { content: "”"; }
+.mini-prompt:hover { border-color: var(--color-primary); transform: translateX(2px); }
+
+/* =========================================================
    Guías prácticas (recursos de pago)
    ========================================================= */
 .guia-grid {

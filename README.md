@@ -6,10 +6,24 @@ con la comida.
 
 ## Contenido del sitio
 
-- **Inicio** (`index.html`): presentación del proyecto y sus pilares.
+- **Inicio** (`index.html`): mensaje central del sitio — "el lugar donde
+  encuentras la herramienta que necesitas, cuando la necesitas" — y acceso
+  directo a Herramientas, Artículos y Habla conmigo.
+- **Herramientas** (`herramientas.html`): notas de audio breves para
+  momentos concretos ("comí de más y me siento culpable", "¿esto es hambre
+  física o ansiedad?"). Es la pieza central del sitio (ver más abajo cómo
+  publicar un audio nuevo).
 - **Artículos** (`articulos.html` y `articulos/*.html`): textos educativos
   sobre relación con la comida, alimentación consciente, comer emocional y
   ansiedad, e imagen corporal.
+- **Sobre mí** (`sobre-nosotros.html`): bio de Laura Rubio Angarita (psicóloga), su historia y su enfoque.
+
+La navegación principal se mantiene deliberadamente corta (Inicio,
+Herramientas, Artículos, Sobre mí + el botón "Habla con alguien") para que
+el sitio no se sienta con demasiados lugares donde perderse. El resto del
+contenido sigue existiendo y es accesible desde el pie de página de
+cualquier página:
+
 - **Recursos** (`recursos.html`): datos, señales de alerta y mitos frente a
   realidades sobre la relación con la comida.
 - **Videos** (`videos.html`): charlas y guías en video (ver más abajo cómo
@@ -20,12 +34,12 @@ con la comida.
 - **Habla con alguien** (`hablar.html`): formulario para agendar una primera
   conversación con un profesional. El formulario envía correos reales (ver
   más abajo cómo activarlo).
-- **Sobre mí** (`sobre-nosotros.html`): bio de Laura Rubio Angarita (psicóloga), su historia y su enfoque.
 
 ## Estructura de archivos
 
 ```
 ├── index.html
+├── herramientas.html
 ├── articulos.html
 ├── articulos/
 │   ├── relacion-con-la-comida.html
@@ -38,13 +52,17 @@ con la comida.
 ├── hablar.html
 ├── sobre-nosotros.html
 ├── css/styles.css
-├── assets/team/          # foto(s) de perfil usadas en Sobre nosotros
+├── assets/
+│   ├── team/               # foto(s) de perfil usadas en Sobre mí
+│   └── audio/              # audios de Herramientas (mp3/m4a)
 └── js/
-    ├── main.js           # navegación móvil + envío del formulario
-    ├── videos.js         # arma la página de videos
-    ├── videos-data.js    # lista de videos editable (ver abajo)
-    ├── guias.js          # arma la página de guías prácticas
-    └── guias-data.js     # lista de guías editable, con su link de pago
+    ├── main.js             # navegación móvil + envío del formulario
+    ├── herramientas.js     # arma la página de Herramientas
+    ├── herramientas-data.js # lista de situaciones + audios (ver abajo)
+    ├── videos.js           # arma la página de videos
+    ├── videos-data.js      # lista de videos editable (ver abajo)
+    ├── guias.js            # arma la página de guías prácticas
+    └── guias-data.js       # lista de guías editable, con su link de pago
 ```
 
 ## Cómo verlo localmente
@@ -106,6 +124,35 @@ está en `js/videos-data.js`. No hace falta tocar HTML ni CSS:
 
 Mientras el array esté vacío, la página muestra un mensaje de "muy pronto"
 en lugar de una grilla vacía.
+
+## Cómo publicar un audio nuevo en Herramientas
+
+`herramientas.html` se arma automáticamente a partir de la lista que está
+en `js/herramientas-data.js`. Ya tiene cargadas las 6 situaciones definidas
+al lanzar esta sección, todas en espera de su audio ("Audio en camino").
+Para activar el audio de una de ellas:
+
+1. Graba la nota de voz y expórtala como mp3 (o m4a).
+2. Guarda el archivo en `assets/audio/`, con un nombre simple sin espacios,
+   por ejemplo `culpa-despues-de-comer.mp3`.
+3. Abre `js/herramientas-data.js` y completa el campo `audioSrc` de esa
+   situación con la ruta del archivo:
+
+   ```js
+   {
+     situacion: "Comí de más y me siento culpable.",
+     descripcion: "Para el momento justo después de comer, cuando la culpa aparece antes que cualquier otra cosa.",
+     duracion: "7 min",
+     audioSrc: "assets/audio/culpa-despues-de-comer.mp3",
+   },
+   ```
+
+4. Guarda el archivo. La tarjeta deja de mostrar "Audio en camino" y pasa a
+   mostrar un reproductor de audio real.
+
+Para agregar una situación completamente nueva (que no esté en la lista
+original), simplemente agrega un objeto nuevo al array `HERRAMIENTAS` con
+el mismo formato.
 
 ## Cómo habilitar los pagos de las guías prácticas (todavía no activado)
 
