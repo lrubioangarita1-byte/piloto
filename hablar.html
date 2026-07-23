@@ -26,6 +26,7 @@
       <li><a href="index.html">Inicio</a></li>
       <li><a href="articulos.html">Artículos</a></li>
       <li><a href="recursos.html">Recursos</a></li>
+      <li><a href="videos.html">Videos</a></li>
       <li><a href="hablar.html">Habla con alguien</a></li>
       <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
     </ul>
@@ -79,7 +80,11 @@
             Todos los campos marcados con * son obligatorios. Tu información se usa únicamente para contactarte.
           </p>
 
-          <form id="contact-form" novalidate>
+          <form id="contact-form" novalidate data-formsubmit-endpoint="https://formsubmit.co/ajax/lrubioangarita1@gmail.com">
+            <input type="hidden" name="_subject" value="Nueva solicitud de conversación · Nutre" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+
             <div class="field">
               <label for="name">Nombre *</label>
               <input type="text" id="name" name="name" required autocomplete="name" />
@@ -120,7 +125,7 @@
               </label>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block">Enviar solicitud</button>
+            <button type="submit" class="btn btn-primary btn-block" id="contact-submit">Enviar solicitud</button>
             <div class="form-status" role="status"></div>
           </form>
         </div>
@@ -172,6 +177,7 @@
         <ul>
           <li><a href="articulos.html">Artículos</a></li>
           <li><a href="recursos.html">Recursos y datos</a></li>
+          <li><a href="videos.html">Videos</a></li>
           <li><a href="hablar.html">Habla con alguien</a></li>
           <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
         </ul>
