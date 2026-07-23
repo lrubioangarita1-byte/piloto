@@ -20,7 +20,7 @@ con la comida.
 - **Habla con alguien** (`hablar.html`): formulario para agendar una primera
   conversación con un profesional. El formulario envía correos reales (ver
   más abajo cómo activarlo).
-- **Sobre nosotros** (`sobre-nosotros.html`): misión y enfoque del proyecto.
+- **Sobre mí** (`sobre-nosotros.html`): bio de Laura Rubio Angarita (psicóloga), su historia y su enfoque.
 
 ## Estructura de archivos
 

@@ -782,6 +782,45 @@ section {
 .video-empty p { color: var(--color-text-soft); max-width: 480px; margin: 0 auto; }
 
 /* =========================================================
+   Bio (Sobre nosotros)
+   ========================================================= */
+.bio-hero-grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 3rem;
+  align-items: center;
+}
+@media (max-width: 860px) { .bio-hero-grid { grid-template-columns: 1fr; } }
+
+.bio-photo {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  aspect-ratio: 3 / 4;
+}
+.bio-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bio-credentials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.4rem 0 1.8rem;
+}
+.bio-credentials li {
+  list-style: none;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  background: var(--color-primary-soft);
+  padding: 0.5rem 0.95rem;
+  border-radius: 999px;
+}
+
+/* =========================================================
    Guías prácticas (recursos de pago)
    ========================================================= */
 .guia-grid {
