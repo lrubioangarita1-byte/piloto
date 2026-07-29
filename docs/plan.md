@@ -42,21 +42,24 @@ Ver [`../CLAUDE.md`](../CLAUDE.md) — se mantienen sincronizadas ahí para que 
 ### Fase 0 — Preparación (antes de tocar código)
 
 - Preguntar a Siscolsi: ¿motor de base de datos? ¿permiten usuario de solo lectura? ¿documentación del esquema?
-- Validar con jurídico/protección de datos si el piloto requiere trámite formal.
-- Con facturación: identificar las 3 causas más frecuentes de glosas hoy.
+  - Motor de base de datos: **PostgreSQL** (dato preliminar, pendiente de confirmar formalmente con soporte de Siscolsi).
+  - Software instalado: "Software SISS", versión 5.0.42, Windows — Siscolsi S.A.S.
+  - Pendiente: ¿usuario de solo lectura disponible? ¿documentación del esquema? ¿host/puerto de acceso en red?
+- Validar con jurídico/protección de datos si el piloto requiere trámite formal. — pendiente.
+- Con facturación: identificar las 3 causas más frecuentes de glosas hoy. — pendiente.
 
 ### Fase 1 — Infraestructura
 
-- Comprar e instalar mini PC en la red de la clínica (requiere presencia física una sola vez, ~30 min: energizar, conectar a red, instalar Tailscale).
-- Instalar Node.js, Python, Git, Claude Code en el mini PC.
-- Activar Remote Control y probar acceso desde el iPad.
+- Comprar e instalar mini PC en la red de la clínica (requiere presencia física una sola vez, ~30 min: energizar, conectar a red, instalar Tailscale). ✅
+- Instalar Node.js, Python, Git, Claude Code en el mini PC. ✅
+- Activar Remote Control y probar acceso desde el iPad. ✅
 
 ### Fase 2 — Repositorio y reglas de seguridad
 
 - Crear repositorio privado en GitHub. ✅
-- Clonarlo en el mini PC (no en el iPad).
+- Clonarlo en el mini PC (no en el iPad). ✅
 - Escribir `CLAUDE.md` con las reglas de seguridad. ✅
-- Conectar MCP de GitHub y Supabase.
+- Conectar MCP de GitHub y Supabase. — pendiente.
 
 ### Fase 3 — Validador de RIPS
 
@@ -78,4 +81,4 @@ Ver [`../CLAUDE.md`](../CLAUDE.md) — se mantienen sincronizadas ahí para que 
 
 ## Próximo paso
 
-Fase 0 (preguntas a Siscolsi y a facturación) y Fase 1 (compra/configuración del mini PC).
+Fase 1 completa. Cerrar Fase 0: confirmar formalmente con soporte de Siscolsi el motor de base de datos (PostgreSQL, dato preliminar), pedir usuario de solo lectura y documentación del esquema, validar con jurídico, y hablar con facturación sobre las causas de glosas.
