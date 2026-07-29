@@ -42,7 +42,7 @@ Ver [`../CLAUDE.md`](../CLAUDE.md) — se mantienen sincronizadas ahí para que 
 ### Fase 0 — Preparación (antes de tocar código)
 
 - Preguntar a Siscolsi: ¿motor de base de datos? ¿permiten usuario de solo lectura? ¿documentación del esquema?
-  - Motor de base de datos: **PostgreSQL** (dato preliminar, pendiente de confirmar formalmente con soporte de Siscolsi).
+  - Motor de base de datos: **PostgreSQL** (confirmado por un trabajador de la clínica; re-confirmar con quien administre la base de datos al pedir el usuario de solo lectura).
   - Software instalado: "Software SISS", versión 5.0.42, Windows — Siscolsi S.A.S.
   - Pendiente: ¿usuario de solo lectura disponible? ¿documentación del esquema? ¿host/puerto de acceso en red?
 - Validar con jurídico/protección de datos si el piloto requiere trámite formal. — pendiente.
