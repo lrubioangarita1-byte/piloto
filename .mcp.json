@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "structured": {
+      "type": "http",
+      "url": "https://mcp.structured.app/mcp",
+      "oauth": {
+        "clientId": "48550a62-e040-47d8-ba02-364446e978c4",
+        "callbackPort": 9876
+      }
+    }
+  }
+}
