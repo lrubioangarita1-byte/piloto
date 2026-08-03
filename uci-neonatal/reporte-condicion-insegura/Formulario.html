@@ -428,11 +428,9 @@
 </div>
 
 <script>
-// URL del Web App de Google Apps Script que envía el correo a calidad@nacersanoips.com
-// y guarda cada reporte en una hoja de Google Sheets (dentro de Google Drive).
-// Se obtiene al desplegar el archivo apps-script.gs (ver instrucciones en ese archivo).
-// Mientras esté vacía, el formulario solo guarda una copia local en este dispositivo.
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHh-A39MkRyyCLZ_99DP-dcPQyJnmKNun3EpT6_Lu0mdW1X9tjWcMEMye7DqCW7Ku9Eg/exec';
+// Esta página se sirve desde el propio Apps Script (ver apps-script.gs, función doGet),
+// así que el envío se hace con google.script.run, que llama directamente a la función
+// submitReport(data) del backend — no hace falta ninguna URL ni fetch.
 
 const STORAGE_KEY_PREFIX = 'reporte_ci:';
 const INDEX_KEY = 'reporte_ci_index';
@@ -526,14 +524,12 @@ document.getElementById('btnSubmit').addEventListener('click', async ()=>{
 
   try{
     // envía el reporte al backend (correo + Google Sheet en Drive)
-    if(APPS_SCRIPT_URL){
-      await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors', // Apps Script no responde con cabeceras CORS; no se puede leer la respuesta, pero el envío llega
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(entry)
-      });
-    }
+    await new Promise((resolve, reject)=>{
+      google.script.run
+        .withSuccessHandler(resolve)
+        .withFailureHandler(reject)
+        .submitReport(entry);
+    });
 
     // guarda una copia local para mostrarla en la pestaña "Respuestas" de este dispositivo
     localStorage.setItem(STORAGE_KEY_PREFIX + entry.id, JSON.stringify(entry));
