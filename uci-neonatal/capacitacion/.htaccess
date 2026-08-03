@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Acceso restringido - UCI Neonatal"
+AuthUserFile /home/nacers/public_html/uci-neonatal/capacitacion/.htpasswd
+Require valid-user
