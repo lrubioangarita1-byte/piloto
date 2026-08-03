@@ -3,8 +3,10 @@
  * Recibe cada reporte, lo guarda como fila en una Google Sheet (queda en Drive)
  * y envía una notificación por correo a calidad@nacersanoips.com.
  *
- * CÓMO DESPLEGARLO (hacerlo desde la cuenta de Google de calidad@nacersanoips.com,
- * o una cuenta de Workspace con permiso para enviar correo y crear archivos en ese Drive):
+ * CÓMO DESPLEGARLO
+ * Puede hacerlo cualquier cuenta de Google del dominio (por ejemplo info@nacersanoips.com),
+ * no tiene que ser la de calidad@ — el correo de aviso igual llega a NOTIFY_EMAIL,
+ * y la hoja se comparte con calidad@ en el paso 9.
  *
  * 1. Entra a https://sheets.google.com y crea una hoja de cálculo nueva.
  *    Llámala, por ejemplo, "Reportes Condicion Insegura - UCI Neonatal".
@@ -13,15 +15,17 @@
  * 4. Guarda el proyecto (ícono de disquete).
  * 5. Arriba a la derecha: Implementar > Nueva implementación.
  *    - Tipo: "Aplicación web".
- *    - Ejecutar como: "Yo" (tu cuenta, calidad@nacersanoips.com).
+ *    - Ejecutar como: "Yo" (la cuenta con la que creaste la hoja, ej. info@nacersanoips.com).
  *    - Quién tiene acceso: "Cualquier usuario".
  * 6. Autoriza los permisos que pida Google (enviar correo y editar la hoja).
  * 7. Copia la URL que te entrega ("URL de la aplicación web").
  * 8. Pega esa URL como valor de APPS_SCRIPT_URL en index.html.
+ * 9. Comparte esta hoja de cálculo con calidad@nacersanoips.com (Compartir > agregar su
+ *    correo > permiso "Editor") para que también le quede accesible en su Drive.
  *
  * Cada vez que alguien envíe el formulario, se agrega una fila a esta hoja
- * (que vive en el Drive de calidad@nacersanoips.com) y llega un correo
- * a NOTIFY_EMAIL con el detalle del reporte.
+ * (que vive en el Drive de quien la creó, y queda compartida con calidad@) y llega
+ * un correo a NOTIFY_EMAIL con el detalle del reporte.
  */
 
 const NOTIFY_EMAIL = 'calidad@nacersanoips.com';
