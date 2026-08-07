@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte de Condición Insegura — UCI Neonatal Nacersano IPS</title>
+<style>
+  :root{
+    --ink:#3a3436;
+    --ink-soft:#7c7679;
+    --line:#e6e2df;
+    --line-soft:#f7f5ec;
+    --paper:#ffffff;
+    --bg:#f6f7ee;
+    --teal:#a4518b;        /* magenta NacerSano */
+    --teal-dark:#7c3b69;
+    --amber:#7a8a15;       /* verde lima oscurecido, para texto sobre fondo lima */
+    --amber-bg:#eef7c9;    /* verde lima claro */
+    --lime:#dcff0b;
+    --lime-soft:#ccf380;
+    --gray-brand:#a4a8ab;
+    --danger:#b3261e;
+    --radius:10px;
+    font-family: 'Segoe UI', ui-sans-serif, system-ui, -apple-system, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  .topbar{
+    height:7px;
+    background:linear-gradient(90deg,var(--teal) 0%, var(--teal) 55%, var(--lime-soft) 55%, var(--lime-soft) 80%, var(--lime) 80%, var(--lime) 100%);
+  }
+  .brandbar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:16px 0 4px;
+  }
+  .brandbar img{
+    height:54px;
+    width:auto;
+    display:block;
+  }
+  .brandbar .brandtext{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    line-height:1.4;
+    border-left:2px solid var(--line);
+    padding-left:12px;
+  }
+  .brandbar .brandtext b{color:var(--teal-dark);}
+  .wrap{
+    max-width:700px;
+    margin:0 auto;
+    padding:28px 16px 0;
+  }
+  .tabs{
+    display:flex;
+    gap:4px;
+    margin-bottom:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .tab{
+    padding:10px 18px;
+    font-size:14px;
+    font-weight:600;
+    color:var(--ink-soft);
+    cursor:pointer;
+    border-bottom:3px solid transparent;
+    user-select:none;
+    letter-spacing:.2px;
+  }
+  .tab.active{
+    color:var(--teal-dark);
+    border-bottom-color:var(--teal);
+  }
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px 26px;
+    margin-bottom:16px;
+    box-shadow:0 1px 2px rgba(20,30,40,0.04);
+  }
+  .header-card{
+    border-top:8px solid var(--teal);
+    position:relative;
+  }
+  .header-card::after{
+    content:"";
+    position:absolute;
+    top:0; right:0;
+    width:120px; height:120px;
+    background:radial-gradient(circle at top right, var(--lime-soft) 0%, transparent 70%);
+    border-radius:0 0 0 120px;
+    pointer-events:none;
+    opacity:.55;
+  }
+  .eyebrow{
+    display:inline-block;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+    color:var(--teal-dark);
+    background:var(--amber-bg);
+    padding:4px 10px;
+    border-radius:20px;
+    margin-bottom:12px;
+  }
+  h1{
+    font-size:23px;
+    margin:0 0 6px;
+    color:var(--ink);
+    letter-spacing:-.2px;
+  }
+  .subtitle{
+    font-size:14px;
+    color:var(--ink-soft);
+    margin:0 0 16px;
+  }
+  .info-box{
+    background:var(--line-soft);
+    border-left:3px solid var(--teal);
+    padding:12px 14px;
+    border-radius:6px;
+    font-size:13.5px;
+    line-height:1.55;
+    color:var(--ink-soft);
+  }
+  .required-note{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:14px;
+  }
+  .required-note span{color:var(--danger);}
+
+  label.qlabel{
+    display:block;
+    font-size:15px;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:4px;
+  }
+  label.qlabel .req{color:var(--danger); margin-left:2px;}
+  .qhint{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+  }
+  input[type="text"], input[type="date"], select, textarea{
+    width:100%;
+    font-size:14.5px;
+    font-family:inherit;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:7px;
+    background:#fbfbfb;
+    color:var(--ink);
+    transition:border-color .15s, background .15s;
+  }
+  input:focus, select:focus, textarea:focus{
+    outline:none;
+    border-color:var(--teal);
+    background:#fff;
+    box-shadow:0 0 0 3px rgba(14,92,86,0.12);
+  }
+  textarea{min-height:96px; resize:vertical;}
+
+  .chip-group{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    padding:7px 14px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    font-size:13.5px;
+    cursor:pointer;
+    color:var(--ink-soft);
+    background:#fbfbfb;
+    user-select:none;
+  }
+  .chip.selected{
+    background:var(--lime-soft);
+    border-color:var(--amber);
+    color:var(--amber);
+    font-weight:600;
+  }
+
+  .err{
+    color:var(--danger);
+    font-size:12.5px;
+    margin-top:6px;
+    display:none;
+  }
+  .err.show{display:block;}
+  .field-invalid input, .field-invalid select, .field-invalid textarea{
+    border-color:var(--danger);
+  }
+
+  .actions{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:6px;
+  }
+  button.submit{
+    background:var(--teal);
+    color:#fff;
+    border:none;
+    padding:11px 26px;
+    border-radius:7px;
+    font-size:14.5px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  button.submit:hover{background:var(--teal-dark);}
+  button.submit:disabled{background:#a9b8b6; cursor:not-allowed;}
+  .clear-link{
+    font-size:13px;
+    color:var(--ink-soft);
+    cursor:pointer;
+    text-decoration:underline;
+  }
+
+  .confirm{
+    text-align:center;
+    padding:40px 20px;
+  }
+  .confirm .check{
+    width:52px;height:52px;border-radius:50%;
+    background:var(--lime-soft); color:var(--teal-dark);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 16px; font-size:26px;
+  }
+  .confirm h2{margin:0 0 8px; font-size:19px;}
+  .confirm p{color:var(--ink-soft); font-size:14px; margin:0 0 18px;}
+  .confirm button{
+    background:transparent;
+    border:1px solid var(--teal);
+    color:var(--teal);
+    padding:9px 18px;
+    border-radius:7px;
+    font-size:13.5px;
+    cursor:pointer;
+    font-weight:600;
+  }
+
+  footer.formfoot{
+    text-align:center;
+    font-size:12px;
+    color:#8a97a3;
+    margin-top:18px;
+    line-height:1.6;
+  }
+
+  /* Responses tab */
+  .resp-summary{
+    display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;
+  }
+  .stat{
+    flex:1; min-width:120px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:14px 16px;
+  }
+  .stat .n{font-size:22px; font-weight:700; color:var(--teal-dark);}
+  .stat .l{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+
+  .resp-row{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px 18px;
+    margin-bottom:10px;
+  }
+  .resp-row .meta{
+    display:flex; flex-wrap:wrap; gap:8px 16px;
+    font-size:12.5px; color:var(--ink-soft);
+    margin-bottom:8px;
+  }
+  .resp-row .meta b{color:var(--ink); font-weight:600;}
+  .resp-row .class-tag{
+    display:inline-block;
+    font-size:11.5px; font-weight:700;
+    padding:3px 9px; border-radius:20px;
+    background:var(--lime-soft); color:var(--amber);
+  }
+  .resp-row .desc{font-size:14px; line-height:1.5; color:var(--ink);}
+
+  .empty{
+    text-align:center;
+    padding:40px 20px;
+    color:var(--ink-soft);
+    font-size:14px;
+  }
+
+  .toolbar{
+    display:flex; justify-content:flex-end; margin-bottom:12px;
+  }
+  .toolbar button{
+    background:#fff;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    font-size:12.5px;
+    padding:7px 12px;
+    border-radius:7px;
+    cursor:pointer;
+  }
+  .toolbar button:hover{border-color:var(--teal); color:var(--teal);}
+
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+<div class="wrap">
+
+  <div class="brandbar">
+    <img src="../assets/logo-nacersano.png" alt="NacerSano">
+    <div class="brandtext"><b>NacerSano S.A.S.</b><br>Comprometidos con la vida</div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="form">Formulario</div>
+    <div class="tab" data-tab="responses">Respuestas <span id="respCount"></span></div>
+  </div>
+
+  <!-- FORM TAB -->
+  <div id="tab-form">
+
+    <div class="card header-card">
+      <span class="eyebrow">Seguridad del paciente</span>
+      <h1>Reporte de Condición Insegura</h1>
+      <p class="subtitle">Unidad de Cuidados Intensivos Neonatales — Nacersano IPS</p>
+      <div class="info-box">
+        Una condición insegura es toda circunstancia física, eléctrica o locativa que representa un riesgo potencial para la seguridad de pacientes, familias y personal. Reportarla a tiempo permite corregirla antes de que ocurra un incidente o accidente.
+      </div>
+      <p class="required-note"><span>*</span> Obligatorio</p>
+    </div>
+
+    <div id="formCard">
+      <div class="card">
+        <label class="qlabel">Fecha<span class="req">*</span></label>
+        <input type="date" id="q_fecha">
+        <div class="err" id="err_fecha">Selecciona una fecha.</div>
+      </div>
+
+      <div class="card">
+        <label class="qlabel">Quién reporta<span class="req">*</span></label>
+        <div class="qhint">Nombre completo de quien detecta la condición.</div>
+        <input type="text" id="q_quien" placeholder="Ej: Laura Rubio Angarita">
+        <div class="err" id="err_quien">Escribe el nombre de quien reporta.</div>
+      </div>
+
+      <div class="card">
+        <label class="qlabel">Área que reporta<span class="req">*</span></label>
+        <select id="q_area">
+          <option value="">Selecciona un área</option>
+          <option>UCI Neonatal</option>
+          <option>Lactario</option>
+          <option>Farmacia</option>
+          <option>Área administrativa</option>
+          <option>Otra</option>
+        </select>
+        <input type="text" id="q_area_otra" placeholder="Especifica el área" style="margin-top:8px; display:none;">
+        <div class="err" id="err_area">Selecciona el área que reporta.</div>
+      </div>
+
+      <div class="card">
+        <label class="qlabel">Clasificación<span class="req">*</span></label>
+        <div class="qhint">Selecciona el tipo de condición insegura.</div>
+        <div class="chip-group" id="q_clasificacion">
+          <div class="chip" data-value="Eléctrico">Eléctrico</div>
+          <div class="chip" data-value="Locativo">Locativo</div>
+          <div class="chip" data-value="Biomédico / Equipos">Biomédico / Equipos</div>
+          <div class="chip" data-value="Insumos">Insumos</div>
+          <div class="chip" data-value="Orden y aseo">Orden y aseo</div>
+          <div class="chip" data-value="Otro">Otro</div>
+        </div>
+        <div class="err" id="err_clasificacion">Selecciona una clasificación.</div>
+      </div>
+
+      <div class="card">
+        <label class="qlabel">Descripción de la condición insegura<span class="req">*</span></label>
+        <div class="qhint">Describe qué observaste, dónde exactamente y el riesgo que representa.</div>
+        <textarea id="q_descripcion" placeholder="Ej: Toma eléctrica junto a incubadora 3 con carcasa suelta y cables expuestos."></textarea>
+        <div class="err" id="err_descripcion">Describe la condición observada.</div>
+      </div>
+
+      <div class="card">
+        <div class="actions">
+          <button class="submit" id="btnSubmit">Enviar</button>
+          <span class="clear-link" id="btnClear">Borrar formulario</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card confirm hidden" id="confirmCard">
+      <div class="check">✓</div>
+      <h2>Condición insegura reportada</h2>
+      <p>Gracias — tu reporte quedó registrado y visible en la pestaña de Respuestas.</p>
+      <button id="btnAnother">Enviar otro reporte</button>
+    </div>
+
+    <footer class="formfoot">Nacersano IPS · Hospital César Uribe Piedrahíta &nbsp;·&nbsp; Los reportes son visibles para el equipo que gestiona la seguridad de la unidad</footer>
+  </div>
+
+  <!-- RESPONSES TAB -->
+  <div id="tab-responses" class="hidden">
+    <p class="qhint" style="margin-bottom:14px;">Esta lista solo muestra los reportes enviados desde este dispositivo. El registro completo de todos los reportes llega por correo a calidad@nacersanoips.com y queda guardado en la hoja de cálculo compartida en Drive.</p>
+    <div class="resp-summary">
+      <div class="stat"><div class="n" id="statTotal">0</div><div class="l">Reportes totales</div></div>
+      <div class="stat"><div class="n" id="statMonth">0</div><div class="l">Este mes</div></div>
+      <div class="stat"><div class="n" id="statTop">—</div><div class="l">Clasificación más frecuente</div></div>
+    </div>
+    <div class="toolbar">
+      <button id="btnExport">Exportar CSV</button>
+    </div>
+    <div id="responsesList"></div>
+  </div>
+
+</div>
+
+<script>
+// URL del Web App de Google Apps Script que envía el correo a calidad@nacersanoips.com
+// y guarda cada reporte en una hoja de Google Sheets (dentro de Google Drive).
+// Ver apps-script.gs en esta misma carpeta para desplegarlo.
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwuMnff1m2KQo6yxTn-5F8bUpo8nqLOdh0dy-N4BLcZXouJWpGaRVwAxRCTJ9k8F6KT/exec';
+
+const STORAGE_KEY_PREFIX = 'reporte_ci:';
+const INDEX_KEY = 'reporte_ci_index';
+
+// ---- Tabs ----
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const which = t.dataset.tab;
+    document.getElementById('tab-form').classList.toggle('hidden', which!=='form');
+    document.getElementById('tab-responses').classList.toggle('hidden', which!=='responses');
+    if(which==='responses') loadResponses();
+  });
+});
+
+// default date = today
+document.getElementById('q_fecha').valueAsDate = new Date();
+
+// area "otra"
+const areaSel = document.getElementById('q_area');
+const areaOtra = document.getElementById('q_area_otra');
+areaSel.addEventListener('change', ()=>{
+  areaOtra.style.display = areaSel.value === 'Otra' ? 'block' : 'none';
+});
+
+// chips
+let selectedClass = '';
+document.querySelectorAll('#q_clasificacion .chip').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    document.querySelectorAll('#q_clasificacion .chip').forEach(c=>c.classList.remove('selected'));
+    chip.classList.add('selected');
+    selectedClass = chip.dataset.value;
+    document.getElementById('err_clasificacion').classList.remove('show');
+  });
+});
+
+function clearForm(){
+  document.getElementById('q_fecha').valueAsDate = new Date();
+  document.getElementById('q_quien').value='';
+  areaSel.value='';
+  areaOtra.value='';
+  areaOtra.style.display='none';
+  document.getElementById('q_descripcion').value='';
+  selectedClass='';
+  document.querySelectorAll('#q_clasificacion .chip').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('.err').forEach(e=>e.classList.remove('show'));
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('field-invalid'));
+}
+document.getElementById('btnClear').addEventListener('click', clearForm);
+document.getElementById('btnAnother').addEventListener('click', ()=>{
+  clearForm();
+  document.getElementById('formCard').classList.remove('hidden');
+  document.getElementById('confirmCard').classList.add('hidden');
+});
+
+function setInvalid(id, invalid){
+  const errEl = document.getElementById('err_'+id);
+  const card = errEl.closest('.card');
+  errEl.classList.toggle('show', invalid);
+  card.classList.toggle('field-invalid', invalid);
+}
+
+document.getElementById('btnSubmit').addEventListener('click', async ()=>{
+  const fecha = document.getElementById('q_fecha').value;
+  const quien = document.getElementById('q_quien').value.trim();
+  let area = areaSel.value;
+  const descripcion = document.getElementById('q_descripcion').value.trim();
+
+  let valid = true;
+  if(!fecha){ setInvalid('fecha', true); valid=false; } else setInvalid('fecha', false);
+  if(!quien){ setInvalid('quien', true); valid=false; } else setInvalid('quien', false);
+  if(!area){ setInvalid('area', true); valid=false; } else setInvalid('area', false);
+  if(area==='Otra'){
+    if(!areaOtra.value.trim()){ valid=false; areaOtra.style.borderColor='var(--danger)'; }
+    else { area = areaOtra.value.trim(); areaOtra.style.borderColor=''; }
+  }
+  if(!selectedClass){ setInvalid('clasificacion', true); valid=false; } else setInvalid('clasificacion', false);
+  if(!descripcion){ setInvalid('descripcion', true); valid=false; } else setInvalid('descripcion', false);
+
+  if(!valid) return;
+
+  const btn = document.getElementById('btnSubmit');
+  btn.disabled = true; btn.textContent = 'Enviando...';
+
+  const entry = {
+    id: 'r_' + Date.now() + '_' + Math.random().toString(36).slice(2,8),
+    fecha, quien, area, clasificacion: selectedClass, descripcion,
+    creado: new Date().toISOString()
+  };
+
+  try{
+    // envía el reporte al backend (correo + Google Sheet en Drive)
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors', // Apps Script no responde con cabeceras CORS; no se puede leer la respuesta, pero el envío llega
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(entry)
+    });
+
+    // guarda una copia local para mostrarla en la pestaña "Respuestas" de este dispositivo
+    localStorage.setItem(STORAGE_KEY_PREFIX + entry.id, JSON.stringify(entry));
+    let idx = JSON.parse(localStorage.getItem(INDEX_KEY) || '[]');
+    idx.push(entry.id);
+    localStorage.setItem(INDEX_KEY, JSON.stringify(idx));
+
+    document.getElementById('formCard').classList.add('hidden');
+    document.getElementById('confirmCard').classList.remove('hidden');
+  }catch(e){
+    alert('No se pudo enviar el reporte. Verifica tu conexión e intenta de nuevo.');
+    console.error(e);
+  }finally{
+    btn.disabled = false; btn.textContent = 'Enviar';
+  }
+});
+
+// ---- Responses ----
+async function loadResponses(){
+  const list = document.getElementById('responsesList');
+  list.innerHTML = '<div class="empty">Cargando reportes...</div>';
+  const idx = JSON.parse(localStorage.getItem(INDEX_KEY) || '[]');
+
+  if(idx.length===0){
+    list.innerHTML = '<div class="empty">Aún no hay condiciones inseguras reportadas desde este dispositivo.</div>';
+    document.getElementById('respCount').textContent='';
+    document.getElementById('statTotal').textContent='0';
+    document.getElementById('statMonth').textContent='0';
+    document.getElementById('statTop').textContent='—';
+    return;
+  }
+
+  const entries = [];
+  for(const id of idx){
+    const r = localStorage.getItem(STORAGE_KEY_PREFIX + id);
+    if(r) entries.push(JSON.parse(r));
+  }
+  entries.sort((a,b)=> (b.fecha||'').localeCompare(a.fecha||'') || (b.creado||'').localeCompare(a.creado||''));
+
+  document.getElementById('respCount').textContent = '(' + entries.length + ')';
+  document.getElementById('statTotal').textContent = entries.length;
+
+  const now = new Date();
+  const thisMonth = entries.filter(e=>{
+    const d = new Date(e.fecha);
+    return d.getFullYear()===now.getFullYear() && d.getMonth()===now.getMonth();
+  }).length;
+  document.getElementById('statMonth').textContent = thisMonth;
+
+  const counts = {};
+  entries.forEach(e=> counts[e.clasificacion] = (counts[e.clasificacion]||0)+1 );
+  let top='—', topN=0;
+  Object.entries(counts).forEach(([k,v])=>{ if(v>topN){top=k; topN=v;} });
+  document.getElementById('statTop').textContent = top;
+
+  list.innerHTML = '';
+  entries.forEach(e=>{
+    const row = document.createElement('div');
+    row.className='resp-row';
+    row.innerHTML = `
+      <div class="meta">
+        <span><b>${escapeHtml(e.fecha||'—')}</b></span>
+        <span>Reporta: <b>${escapeHtml(e.quien||'—')}</b></span>
+        <span>Área: <b>${escapeHtml(e.area||'—')}</b></span>
+        <span class="class-tag">${escapeHtml(e.clasificacion||'—')}</span>
+      </div>
+      <div class="desc">${escapeHtml(e.descripcion||'')}</div>
+    `;
+    list.appendChild(row);
+  });
+
+  window.__respEntries = entries;
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+document.getElementById('btnExport').addEventListener('click', ()=>{
+  const entries = window.__respEntries || [];
+  if(entries.length===0){ alert('No hay reportes para exportar.'); return; }
+  const headers = ['Fecha','Quien reporta','Area que reporta','Clasificacion','Descripcion'];
+  const rows = entries.map(e=>[e.fecha,e.quien,e.area,e.clasificacion,e.descripcion]
+    .map(v=>'"'+String(v||'').replace(/"/g,'""')+'"').join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob(['\ufeff'+csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'condiciones_inseguras_nacersano.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+</script>
+
+</body>
+</html>
