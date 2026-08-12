@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nivel 1 · Refuerzo puntual — UCI Neonatal Nacersano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EEF3F1;
+    --paper-warm:#F6F4EE;
+    --ink:#152423;
+    --ink-soft:#3E5450;
+    --accent:#0F6B5C;
+    --accent-deep:#0A4B41;
+    --accent-soft:#D7EAE4;
+    --line:#C7D8D3;
+    --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Source Serif 4', Georgia, serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .sheet{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 0 64px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent-deep);
+    font-weight:600;
+  }
+  /* --- clip motif --- */
+  .clip-wrap{display:flex;justify-content:center;padding-top:28px;}
+  .clip{
+    width:86px;height:34px;
+    background:var(--accent);
+    border-radius:8px 8px 4px 4px;
+    position:relative;
+    box-shadow:0 6px 14px rgba(15,107,92,.25);
+  }
+  .clip::after{
+    content:"";
+    position:absolute;
+    top:8px;left:50%;transform:translateX(-50%);
+    width:26px;height:26px;
+    border-radius:50%;
+    background:var(--paper);
+  }
+
+  /* --- hero --- */
+  .hero{
+    background:var(--accent-soft);
+    border-radius:0 0 28px 28px;
+    padding:36px 44px 40px;
+    margin-bottom:38px;
+  }
+  .level-num{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:clamp(58px,11vw,96px);
+    line-height:.9;
+    color:var(--accent-deep);
+    margin:6px 0 2px;
+    letter-spacing:-.01em;
+  }
+  .level-name{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:22px;
+    color:var(--ink);
+    margin:0 0 6px;
+  }
+  .level-tagline{
+    font-style:italic;
+    font-size:18px;
+    color:var(--ink-soft);
+    margin:0 0 22px;
+    max-width:520px;
+  }
+  .score-badge{
+    display:inline-flex;
+    align-items:baseline;
+    gap:14px;
+    background:var(--white);
+    padding:10px 18px;
+    border-radius:14px;
+    border:1px solid var(--accent);
+  }
+  .score-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .score-range{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:20px;
+    color:var(--accent-deep);
+  }
+
+  section{padding:0 44px;margin-bottom:46px;}
+  h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:26px;
+    font-weight:700;
+    margin:0 0 6px;
+    color:var(--accent-deep);
+  }
+  .section-sub{
+    color:var(--ink-soft);
+    font-size:15px;
+    margin:0 0 22px;
+    max-width:560px;
+  }
+
+  /* --- tips --- */
+  .tips-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  .tip-card{
+    background:var(--white);
+    border-radius:16px;
+    padding:20px 20px 22px;
+    border-left:4px solid var(--accent);
+  }
+  .tip-icon{margin-bottom:10px;}
+  .tip-title{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:16px;
+    margin:0 0 6px;
+    color:var(--ink);
+  }
+  .tip-text{font-size:14.5px;line-height:1.5;color:var(--ink-soft);margin:0;}
+
+  /* --- essentials --- */
+  .ess-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  .ess-card{
+    background:var(--white);
+    border-radius:14px;
+    padding:18px 20px;
+    box-shadow:0 1px 0 var(--line);
+  }
+  .ess-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+    margin-bottom:8px;
+    display:block;
+  }
+  .ess-fact{font-size:15px;line-height:1.55;margin:0;}
+  .ess-fact b{color:var(--accent-deep);}
+  .ess-warn{
+    display:inline-block;
+    margin-top:8px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    background:var(--accent-soft);
+    color:var(--accent-deep);
+    padding:3px 8px;
+    border-radius:6px;
+  }
+
+  /* --- exercises --- */
+  .ex-list{list-style:none;margin:0;padding:0;counter-reset:ex;}
+  .ex-item{
+    counter-increment:ex;
+    background:var(--white);
+    border-radius:14px;
+    padding:18px 22px 18px 58px;
+    margin-bottom:12px;
+    position:relative;
+    font-size:15px;
+    line-height:1.55;
+  }
+  .ex-item::before{
+    content:counter(ex);
+    position:absolute;
+    left:18px;top:18px;
+    width:26px;height:26px;
+    border-radius:50%;
+    background:var(--accent);
+    color:var(--white);
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600;
+    font-size:13px;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  .fold{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    color:var(--ink-soft);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    margin:34px 0 18px;
+  }
+  .fold::before,.fold::after{
+    content:"";
+    flex:1;
+    border-top:2px dashed var(--line);
+  }
+
+  .answers{
+    background:var(--accent-deep);
+    border-radius:18px;
+    padding:26px 28px 30px;
+    transform:rotate(180deg);
+  }
+  .answers h3{
+    font-family:'Space Grotesk',sans-serif;
+    color:var(--accent-soft);
+    font-size:14px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    margin:0 0 14px;
+  }
+  .answers ol{
+    margin:0;padding-left:18px;color:#EAF5F1;font-size:13.5px;line-height:1.6;
+  }
+  .answers li{margin-bottom:10px;}
+  .answers li::marker{color:var(--accent-soft);font-family:'IBM Plex Mono',monospace;}
+
+  footer{
+    padding:0 44px;
+    text-align:center;
+  }
+  .foot-msg{
+    font-style:italic;
+    font-size:16px;
+    color:var(--ink-soft);
+    max-width:480px;
+    margin:0 auto 14px;
+  }
+  .foot-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+
+  @media (max-width:640px){
+    .tips-grid,.ess-grid{grid-template-columns:1fr;}
+    section,.hero{padding-left:22px;padding-right:22px;}
+  }
+  @media print{
+    body{background:var(--white);}
+    .hero{border-radius:0;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="clip-wrap"><div class="clip"></div></div>
+
+  <div class="hero">
+    <span class="eyebrow">UCI Neonatal · Nacersano IPS</span>
+    <div class="level-num">01</div>
+    <div class="level-name">Nivel 1 — Refuerzo puntual</div>
+    <p class="level-tagline">Ya dominas casi todo el temario. Esta ficha cierra las últimas brechas.</p>
+    <div class="score-badge">
+      <span class="score-label">Nota obtenida</span>
+      <span class="score-range">4.00 – 4.48</span>
+    </div>
+  </div>
+
+  <section>
+    <h2>Cómo estudiar este bloque</h2>
+    <p class="section-sub">Con tu nivel, el objetivo no es repasar todo — es cerrar 5 huecos puntuales de la forma más eficiente posible.</p>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <svg class="tip-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0F6B5C" stroke-width="1.8" stroke-linecap="round"><path d="M4 5h13a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/></svg>
+        <p class="tip-title">Enseña para aprender</p>
+        <p class="tip-text">Explícale estos 5 temas a una compañera de turno. Si logras enseñarlo con tus palabras, lo dominas de verdad.</p>
+      </div>
+      <div class="tip-card">
+        <svg class="tip-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0F6B5C" stroke-width="1.8" stroke-linecap="round"><path d="M4 12a8 8 0 1 1 2.6 5.9M4 12V7m0 5h5"/></svg>
+        <p class="tip-title">Repaso espaciado</p>
+        <p class="tip-text">5 minutos hoy, 5 en tres días y 5 en una semana. No necesitas más tiempo, necesitas repetirlo espaciado.</p>
+      </div>
+      <div class="tip-card">
+        <svg class="tip-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0F6B5C" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/><circle cx="12" cy="12" r=".6" fill="#0F6B5C"/></svg>
+        <p class="tip-title">Solo lo que falla</p>
+        <p class="tip-text">No repases todo el examen. Enfócate en los 5 temas de esta ficha — el resto ya lo tienes ganado.</p>
+      </div>
+      <div class="tip-card">
+        <svg class="tip-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0F6B5C" stroke-width="1.8" stroke-linecap="round"><path d="M8 5v14l11-7z"/></svg>
+        <p class="tip-title">Simula el turno</p>
+        <p class="tip-text">Di la respuesta en voz alta como si estuvieras entregando el paciente. Hablarlo fija más que leerlo en silencio.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Lo esencial que debes dominar</h2>
+    <p class="section-sub">Tus 7 brechas puntuales, en una frase cada una.</p>
+    <div class="ess-grid">
+      <div class="ess-card">
+        <span class="ess-label">Factores de riesgo · SDR</span>
+        <p class="ess-fact">Prematurez, <b>diabetes materna</b>, cesárea sin trabajo de parto, embarazo múltiple.</p>
+        <span class="ess-warn">HTA materna NO es factor de riesgo — acelera la madurez pulmonar</span>
+      </div>
+      <div class="ess-card">
+        <span class="ess-label">Curva temporal · SDR</span>
+        <p class="ess-fact">Máxima gravedad entre las <b>48 y 72 horas</b> de vida, no en las primeras 6.</p>
+      </div>
+      <div class="ess-card">
+        <span class="ess-label">Bilirrubina</span>
+        <p class="ess-fact">Pigmento amarillo del catabolismo del hemo. Debe <b>conjugarse en el hígado</b> para eliminarse por la bilis.</p>
+      </div>
+      <div class="ess-card">
+        <span class="ess-label">Hemoglobina neonatal</span>
+        <p class="ess-fact"><b>14–20 g/dL</b> en el RN a término — más alta que en el adulto por el ambiente hipóxico intrauterino.</p>
+      </div>
+      <div class="ess-card">
+        <span class="ess-label">Sepsis neonatal tardía</span>
+        <p class="ess-fact">Cultivos <b>antes</b> de antibióticos + inicio empírico inmediato + soporte hemodinámico y respiratorio.</p>
+      </div>
+      <div class="ess-card">
+        <span class="ess-label">Hipoxemia en SDR</span>
+        <p class="ess-fact">Colapso alveolar difuso → <b>shunt intrapulmonar</b> → sangre que nunca se oxigena, aunque haya O₂ disponible.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Ejercicios prácticos</h2>
+    <p class="section-sub">De nivel integrador — como si tuvieras que resolverlos y explicarlos en la misma entrega de turno.</p>
+    <ol class="ex-list">
+      <li class="ex-item">RN de 39 semanas, madre con preeclampsia severa. ¿Tiene mayor o menor riesgo de SDR que un RN de la misma edad gestacional sin ese antecedente? Justifica tu respuesta.</li>
+      <li class="ex-item">Un RN presenta hipotermia, apnea, distensión abdominal e intolerancia alimentaria durante la noche, con estudios de ingreso normales. ¿Cuál es la conducta correcta y por qué "esperar resultados" no es suficiente?</li>
+      <li class="ex-item">Explica, como si se lo enseñaras a una auxiliar nueva, por qué un RN con SDR tiene hipoxemia aunque esté recibiendo oxígeno.</li>
+      <li class="ex-item">¿Cuál es el valor esperado de hemoglobina en un RN a término y por qué es más alto que en un adulto?</li>
+      <li class="ex-item">¿Por qué el hemocultivo debe tomarse antes de iniciar antibióticos siempre que sea posible?</li>
+    </ol>
+
+    <div class="fold">gira la hoja para ver las respuestas</div>
+
+    <div class="answers">
+      <h3>Respuestas · Nivel 1</h3>
+      <ol>
+        <li>Menor riesgo: el estrés fetal crónico de la preeclampsia acelera la maduración pulmonar (↑ cortisol fetal), por lo que la HTA materna no es factor de riesgo de SDR.</li>
+        <li>Activar el protocolo de sepsis neonatal tardía: tomar cultivos e iniciar antibióticos empíricos sin esperar resultados, junto con soporte. El retraso aumenta la mortalidad.</li>
+        <li>El colapso alveolar difuso genera zonas ventiladas pero no perfundidas correctamente (shunt intrapulmonar): la sangre pasa sin oxigenarse, sin importar cuánto O₂ se administre.</li>
+        <li>14–20 g/dL. Es más alto porque en la vida intrauterina el ambiente es relativamente hipóxico, lo que estimula mayor producción de eritropoyetina.</li>
+        <li>Porque los antibióticos pueden negativizar falsamente el cultivo y hacer perder la oportunidad de identificar el microorganismo causal.</li>
+      </ol>
+    </div>
+  </section>
+
+  <footer>
+    <p class="foot-msg">Este nivel ya está cerca de la meta — un repaso corto y bien dirigido es suficiente.</p>
+    <p class="foot-tag">Servicio de Neonatología · Nacersano IPS</p>
+  </footer>
+
+</div>
+</body>
+</html>
