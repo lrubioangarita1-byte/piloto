@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retroalimentación de evaluación - UCI Neonatal</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 640px; margin: 60px auto; padding: 0 20px; color: #222; }
+  h1 { font-size: 1.5rem; margin-bottom: 4px; }
+  p.sub { color: #666; margin-top: 0; }
+  .niveles { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+  a.nivel { display: block; padding: 20px 22px; border: 1px solid #ccc; border-radius: 8px; text-decoration: none; color: #222; }
+  a.nivel:hover { background: #f5f5f5; }
+  a.nivel .tag { display: block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+  a.nivel .rango { display: block; font-size: 13px; color: #666; margin-top: 4px; }
+  .n1 .tag { color: #0F6B5C; }
+  .n2 .tag { color: #B8862F; }
+  .n3 .tag { color: #8B2635; }
+  p.back { margin-top: 32px; }
+</style>
+</head>
+<body>
+  <h1>Retroalimentación de evaluación</h1>
+  <p class="sub">Elige la ficha según tu nota en la evaluación. Cada una se abre en una ventana nueva.</p>
+  <div class="niveles">
+    <a class="nivel n1" href="nivel1.html" target="_blank" rel="noopener">
+      <span class="tag">Nivel 1 · Refuerzo puntual</span>
+      Nota obtenida 4.00 – 4.48
+      <span class="rango">Cierra las últimas brechas puntuales.</span>
+    </a>
+    <a class="nivel n2" href="nivel2.html" target="_blank" rel="noopener">
+      <span class="tag">Nivel 2 · Refuerzo moderado</span>
+      Nota obtenida 3.60 – 3.84
+      <span class="rango">Práctica constante en bloques cortos.</span>
+    </a>
+    <a class="nivel n3" href="nivel3.pdf" target="_blank" rel="noopener">
+      <span class="tag">Nivel 3 · Refuerzo intensivo</span>
+      Nota obtenida 1.90 – 3.30
+      <span class="rango">Repaso de lo esencial, paso a paso.</span>
+    </a>
+  </div>
+  <p class="back"><a href="../index.html">&larr; Volver a Capacitación</a></p>
+</body>
+</html>

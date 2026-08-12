@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nivel 2 · Refuerzo moderado — UCI Neonatal Nacersano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4EFE6;
+    --ink:#2A2013;
+    --ink-soft:#5A4E3B;
+    --accent:#B8862F;
+    --accent-deep:#7E5A17;
+    --accent-soft:#EFDFB8;
+    --line:#E1D3AE;
+    --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Source Serif 4', Georgia, serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .sheet{max-width:920px;margin:0 auto;padding:0 0 64px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent-deep);font-weight:600;
+  }
+  .clip-wrap{display:flex;justify-content:center;padding-top:28px;}
+  .clip{
+    width:86px;height:34px;background:var(--accent);
+    border-radius:8px 8px 4px 4px;position:relative;
+    box-shadow:0 6px 14px rgba(184,134,47,.28);
+  }
+  .clip::after{
+    content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);
+    width:26px;height:26px;border-radius:50%;background:var(--paper);
+  }
+  .hero{
+    background:var(--accent-soft);border-radius:0 0 28px 28px;
+    padding:36px 44px 40px;margin-bottom:38px;
+  }
+  .level-num{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;
+    font-size:clamp(58px,11vw,96px);line-height:.9;
+    color:var(--accent-deep);margin:6px 0 2px;letter-spacing:-.01em;
+  }
+  .level-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:22px;color:var(--ink);margin:0 0 6px;}
+  .level-tagline{font-style:italic;font-size:18px;color:var(--ink-soft);margin:0 0 22px;max-width:520px;}
+  .score-badge{
+    display:inline-flex;align-items:baseline;gap:14px;
+    background:var(--white);padding:10px 18px;border-radius:14px;border:1px solid var(--accent);
+  }
+  .score-label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);}
+  .score-range{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;color:var(--accent-deep);}
+  section{padding:0 44px;margin-bottom:46px;}
+  h2{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin:0 0 6px;color:var(--accent-deep);}
+  .section-sub{color:var(--ink-soft);font-size:15px;margin:0 0 22px;max-width:560px;}
+  .tips-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .tip-card{background:var(--white);border-radius:16px;padding:20px 20px 22px;border-left:4px solid var(--accent);}
+  .tip-icon{margin-bottom:10px;}
+  .tip-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin:0 0 6px;color:var(--ink);}
+  .tip-text{font-size:14.5px;line-height:1.5;color:var(--ink-soft);margin:0;}
+  .ess-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .ess-card{background:var(--white);border-radius:14px;padding:18px 20px;box-shadow:0 1px 0 var(--line);}
+  .ess-label{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:8px;display:block;}
+  .ess-fact{font-size:15px;line-height:1.55;margin:0;}
+  .ess-fact b{color:var(--accent-deep);}
+  .ess-warn{display:inline-block;margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;background:var(--accent-soft);color:var(--accent-deep);padding:3px 8px;border-radius:6px;}
+  .ex-list{list-style:none;margin:0;padding:0;counter-reset:ex;}
+  .ex-item{counter-increment:ex;background:var(--white);border-radius:14px;padding:18px 22px 18px 58px;margin-bottom:12px;position:relative;font-size:15px;line-height:1.55;}
+  .ex-item::before{content:counter(ex);position:absolute;left:18px;top:18px;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--white);font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center;}
+  .fold{display:flex;align-items:center;gap:14px;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin:34px 0 18px;}
+  .fold::before,.fold::after{content:"";flex:1;border-top:2px dashed var(--line);}
+  .answers{background:var(--accent-deep);border-radius:18px;padding:26px 28px 30px;transform:rotate(180deg);}
+  .answers h3{font-family:'Space Grotesk',sans-serif;color:var(--accent-soft);font-size:14px;letter-spacing:.1em;text-transform:uppercase;margin:0 0 14px;}
+  .answers ol{margin:0;padding-left:18px;color:#FBF2DD;font-size:13.5px;line-height:1.6;}
+  .answers li{margin-bottom:10px;}
+  .answers li::marker{color:var(--accent-soft);font-family:'IBM Plex Mono',monospace;}
+  footer{padding:0 44px;text-align:center;}
+  .foot-msg{font-style:italic;font-size:16px;color:var(--ink-soft);max-width:480px;margin:0 auto 14px;}
+  .foot-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);}
+  @media (max-width:640px){.tips-grid,.ess-grid{grid-template-columns:1fr;}section,.hero{padding-left:22px;padding-right:22px;}}
+  @media print{body{background:var(--white);}.hero{border-radius:0;}}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="clip-wrap"><div class="clip"></div></div>
+
+  <div class="hero">
+    <span class="eyebrow">UCI Neonatal · Nacersano IPS</span>
+    <div class="level-num">02</div>
+    <div class="level-name">Nivel 2 — Refuerzo moderado</div>
+    <p class="level-tagline">Vas por buen camino. Con un poco más de práctica constante, cierras la brecha.</p>
+    <div class="score-badge">
+      <span class="score-label">Nota obtenida</span>
+      <span class="score-range">3.60 – 3.84</span>
+    </div>
+  </div>
+
+  <section>
+    <h2>Cómo estudiar este bloque</h2>
+    <p class="section-sub">Lo que más te va a servir en este nivel es la constancia en bloques cortos, no las maratones de estudio.</p>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <svg class="tip-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B8862F" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        <p class="tip-title">Bloques cortos (Pomodoro)</p>
+        <p class="tip-text">25 minutos de estudio enfocado + 5 de descanso, dos veces al día. Rinde más que una sesión larga.</p>
+      </div>
+      <div class="tip-card">
+        <svg class="tip-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B8862F" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="12" height="8" rx="1.5"/><rect x="8" y="11" width="12" height="8" rx="1.5"/></svg>
+        <p class="tip-title">Tarjetas de memoria activa</p>
+        <p class="tip-text">Escribe la pregunta en un lado y la respuesta en el otro. No releas: pregúntate primero.</p>
+      </div>
+      <div class="tip-card">
+        <svg class="tip-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B8862F" stroke-width="1.8" stroke-linecap="round"><path d="M9 12a3 3 0 1 0 0-.001M4 19l5-5M20 5l-5 5M9 12h6"/></svg>
+        <p class="tip-title">Conecta con casos reales</p>
+        <p class="tip-text">Cada vez que veas ictericia o RCIU en el servicio, relaciona el caso con lo que estudiaste ese día.</p>
+      </div>
+      <div class="tip-card">
+        <svg class="tip-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B8862F" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><path d="M3 20c0-3 2.5-5 5-5s5 2 5 5M14 20c0-2.5 2-4.5 4.5-4.5S23 17.5 23 20"/></svg>
+        <p class="tip-title">Busca un tutor de Nivel 1</p>
+        <p class="tip-text">Pide a una compañera del grupo de refuerzo puntual que te explique el tema que más se te resiste.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Lo esencial que debes dominar</h2>
+    <p class="section-sub">Tus 8 brechas más comunes, en una frase cada una.</p>
+    <div class="ess-grid">
+      <div class="ess-card">
+        <span class="ess-label">Hemólisis · incompatibilidad ABO</span>
+        <p class="ess-fact"><b>Coombs directo positivo</b> + reticulocitosis. La bilirrubina que sube es la <b>indirecta</b>, no la directa.</p>
+      </div>
+      <div class="ess-card">
+        <span class="ess-label">Surfactante</span>
+        <p class="ess-fact">Lo producen los <b>neumocitos tipo II</b>. Cantidad suficiente hacia la semana <b>34–36</b>.</p>
+      </div>
+      <div class="ess-card">
+        <span class="ess-label">Curva temporal · SDR</span>
+        <p class="ess-fact">Máxima gravedad entre las <b>48 y 72 horas</b> de vida.</p>
+      </div>
+      <div class="ess-card">
+        <span class="ess-label">RCIU y glucosa</span>
+        <p class="ess-fact">Menores reservas de glucógeno y grasa → vigilar <b>hipoglucemia</b> con glucometrías seriadas.</p>
+      </div>
+      <div class="ess-card">
+        <span class="ess-label">Anemia hemolítica</span>
+        <p class="ess-fact">Reticulocitos ↑ + anemia + <b>bilirrubina indirecta</b> aumentada.</p>
+      </div>
+      <div class="ess-card">
+        <span class="ess-label">Oxigenoterapia prolongada</span>
+        <p class="ess-fact">Riesgo de <b>retinopatía del prematuro</b>. Mantener la saturación en rango objetivo, no maximizarla.</p>
+        <span class="ess-warn">Vigilar SpO₂ objetivo en cada turno</span>
+      </div>
+      <div class="ess-card">
+        <span class="ess-label">SDR · clínica y radiología</span>
+        <p class="ess-fact">Quejido, retracciones, aleteo nasal / patrón <b>reticulogranular</b> + broncograma aéreo.</p>
+      </div>
+      <div class="ess-card">
+        <span class="ess-label">Atelectasia por déficit de surfactante</span>
+        <p class="ess-fact">↑ tensión superficial → <b>colapso alveolar</b> al final de la espiración.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Ejercicios prácticos</h2>
+    <p class="section-sub">Mezcla de preguntas de recordar y un caso corto para conectar la teoría con la práctica.</p>
+    <ol class="ex-list">
+      <li class="ex-item">RN de 36 semanas, madre Rh+, hijo A Rh+, ictericia a las 10 horas de vida, Coombs directo positivo, bilirrubina en ascenso rápido pese a fototerapia intensiva. ¿Qué sugiere el Coombs positivo y qué conducta sigue?</li>
+      <li class="ex-item">¿Qué célula produce el surfactante pulmonar y hacia qué semana de gestación su producción es suficiente?</li>
+      <li class="ex-item">Un RN con RCIU necesita control seriado de glucometrías. ¿Por qué?</li>
+      <li class="ex-item">Nombra dos hallazgos radiológicos y dos hallazgos clínicos típicos del SDR.</li>
+      <li class="ex-item">¿Por qué un prematuro que recibe oxígeno a altas concentraciones por tiempo prolongado tiene riesgo de retinopatía?</li>
+    </ol>
+
+    <div class="fold">gira la hoja para ver las respuestas</div>
+
+    <div class="answers">
+      <h3>Respuestas · Nivel 2</h3>
+      <ol>
+        <li>Sugiere hemólisis inmunomediada (incompatibilidad de grupo). Ante fototerapia intensiva sin respuesta, considerar exanguinotransfusión según nomograma y factores de riesgo, e informar al médico.</li>
+        <li>Neumocitos tipo II; producción suficiente aproximadamente hacia la semana 34–36.</li>
+        <li>Porque tiene menores reservas de glucógeno y grasa, lo que aumenta el riesgo de hipoglucemia neonatal.</li>
+        <li>Radiológicos: patrón reticulogranular difuso, broncograma aéreo. Clínicos: quejido espiratorio, retracciones/tiraje, aleteo nasal, cianosis.</li>
+        <li>El exceso de oxígeno altera el desarrollo normal de los vasos retinianos inmaduros; por eso se mantiene la saturación en el rango objetivo, no al máximo.</li>
+      </ol>
+    </div>
+  </section>
+
+  <footer>
+    <p class="foot-msg">Ya tienes las bases. Con constancia en bloques cortos, este nivel se cierra rápido.</p>
+    <p class="foot-tag">Servicio de Neonatología · Nacersano IPS</p>
+  </footer>
+
+</div>
+</body>
+</html>
