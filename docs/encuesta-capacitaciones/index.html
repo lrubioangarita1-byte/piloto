@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encuesta de Retroalimentación — Capacitaciones UCI Neonatal</title>
+<style>
+  :root{
+    --ink:#3a3436;
+    --ink-soft:#7c7679;
+    --line:#e6e2df;
+    --line-soft:#f7f5ec;
+    --paper:#ffffff;
+    --bg:#f6f7ee;
+    --teal:#a4518b;
+    --teal-dark:#7c3b69;
+    --amber:#7a8a15;
+    --amber-bg:#eef7c9;
+    --lime:#dcff0b;
+    --lime-soft:#ccf380;
+    --danger:#b3261e;
+    --radius:10px;
+    font-family: 'Segoe UI', ui-sans-serif, system-ui, -apple-system, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  .topbar{
+    height:7px;
+    background:linear-gradient(90deg,var(--teal) 0%, var(--teal) 55%, var(--lime-soft) 55%, var(--lime-soft) 80%, var(--lime) 80%, var(--lime) 100%);
+  }
+  .brandbar{
+    display:flex; align-items:center; gap:12px; padding:16px 0 4px;
+  }
+  .brandbar img{ height:54px; width:auto; display:block; }
+  .brandbar .brandtext{
+    font-size:11.5px; color:var(--ink-soft); line-height:1.4;
+    border-left:2px solid var(--line); padding-left:12px;
+  }
+  .brandbar .brandtext b{ color:var(--teal-dark); }
+  .wrap{ max-width:680px; margin:0 auto; padding:28px 16px 0; }
+  .card{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    padding:24px 22px; margin-bottom:14px; box-shadow:0 1px 2px rgba(20,30,40,0.04);
+  }
+  .header-card{ border-top:8px solid var(--teal); position:relative; }
+  .header-card::after{
+    content:""; position:absolute; top:0; right:0; width:120px; height:120px;
+    background:radial-gradient(circle at top right, var(--lime-soft) 0%, transparent 70%);
+    border-radius:0 0 0 120px; pointer-events:none; opacity:.55;
+  }
+  .eyebrow{
+    display:inline-block; font-size:11px; font-weight:700; letter-spacing:1.2px;
+    text-transform:uppercase; color:var(--teal-dark); background:var(--amber-bg);
+    padding:4px 10px; border-radius:20px; margin-bottom:12px;
+  }
+  h1{ font-size:22px; margin:0 0 6px; letter-spacing:-.2px; }
+  .subtitle{ font-size:14px; color:var(--ink-soft); margin:0 0 16px; }
+  .info-box{
+    background:var(--line-soft); border-left:3px solid var(--teal); padding:12px 14px;
+    border-radius:6px; font-size:13.5px; line-height:1.55; color:var(--ink-soft);
+  }
+  .anon-note{
+    display:flex; align-items:center; gap:8px; margin-top:12px; font-size:12.5px;
+    color:var(--amber); font-weight:600;
+  }
+
+  label.qlabel{ display:block; font-size:15px; font-weight:600; color:var(--ink); margin-bottom:4px; }
+  .qhint{ font-size:12.5px; color:var(--ink-soft); margin-bottom:10px; }
+  input[type="text"], textarea{
+    width:100%; font-size:14.5px; font-family:inherit; padding:10px 12px;
+    border:1px solid var(--line); border-radius:7px; background:#fbfbfb; color:var(--ink);
+  }
+  input:focus, textarea:focus{
+    outline:none; border-color:var(--teal); background:#fff; box-shadow:0 0 0 3px rgba(164,81,139,0.12);
+  }
+  textarea{ min-height:90px; resize:vertical; }
+
+  .err{ color:var(--danger); font-size:12.5px; margin-top:6px; display:none; }
+  .err.show{ display:block; }
+
+  .actions{ display:flex; align-items:center; justify-content:space-between; margin-top:6px; }
+  button.submit{
+    background:var(--teal); color:#fff; border:none; padding:11px 26px; border-radius:7px;
+    font-size:14.5px; font-weight:600; cursor:pointer;
+  }
+  button.submit:hover{ background:var(--teal-dark); }
+  button.submit:disabled{ background:#c9b7c2; cursor:not-allowed; }
+  .clear-link{ font-size:13px; color:var(--ink-soft); cursor:pointer; text-decoration:underline; }
+
+  .confirm{ text-align:center; padding:40px 20px; }
+  .confirm .check{
+    width:52px; height:52px; border-radius:50%; background:var(--lime-soft); color:var(--teal-dark);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:26px;
+  }
+  .confirm h2{ margin:0 0 8px; font-size:19px; }
+  .confirm p{ color:var(--ink-soft); font-size:14px; margin:0 0 18px; }
+  .confirm button{
+    background:transparent; border:1px solid var(--teal); color:var(--teal); padding:9px 18px;
+    border-radius:7px; font-size:13.5px; cursor:pointer; font-weight:600;
+  }
+  footer.formfoot{ text-align:center; font-size:12px; color:#8a97a3; margin-top:18px; line-height:1.6; }
+  .hidden{ display:none !important; }
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+<div class="wrap">
+
+  <div class="brandbar">
+    <img src="../assets/logo-nacersano.png" alt="NacerSano">
+    <div class="brandtext"><b>Nacersano IPS</b><br>Hospital César Uribe Piedrahíta</div>
+  </div>
+
+  <div id="formView">
+    <div class="card header-card">
+      <span class="eyebrow">Capacitaciones</span>
+      <h1>¿Cómo van las capacitaciones?</h1>
+      <p class="subtitle">Unidad de Cuidados Intensivos Neonatales — Nacersano IPS</p>
+      <div class="info-box">
+        Cuéntanos qué te ha parecido, qué te gustaría reforzar y cualquier sugerencia para mejorar. Todas las preguntas son opcionales — responde lo que quieras.
+      </div>
+      <div class="anon-note">🔒 Esta encuesta es completamente anónima: no se pide tu nombre ni ningún dato que te identifique.</div>
+    </div>
+
+    <div class="card">
+      <label class="qlabel">¿Sobre qué capacitación es tu comentario?</label>
+      <div class="qhint">Opcional — el tema, la fecha, o como la recuerdes.</div>
+      <input type="text" id="q_capacitacion" placeholder="Ej: Capacitación de UCI Neonatal, material de estudio">
+    </div>
+
+    <div class="card">
+      <label class="qlabel">¿Qué te ha parecido útil o positivo?</label>
+      <textarea id="q_positivo" placeholder="Lo que más te ha servido o gustado."></textarea>
+    </div>
+
+    <div class="card">
+      <label class="qlabel">¿Qué te gustaría reforzar o mejorar?</label>
+      <textarea id="q_reforzar" placeholder="Temas que sientes que necesitan más explicación o práctica."></textarea>
+    </div>
+
+    <div class="card">
+      <label class="qlabel">Otros comentarios o sugerencias</label>
+      <textarea id="q_comentarios" placeholder="Cualquier otra idea, sugerencia o comentario."></textarea>
+      <div class="err" id="err_vacio">Escribe al menos un comentario antes de enviar.</div>
+    </div>
+
+    <div class="card">
+      <div class="actions">
+        <button class="submit" id="btnSubmit">Enviar</button>
+        <span class="clear-link" id="btnClear">Borrar</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card confirm hidden" id="confirmCard">
+    <div class="check">✓</div>
+    <h2>¡Gracias por tu retroalimentación!</h2>
+    <p>Tu comentario fue enviado de forma anónima y nos ayuda a mejorar las próximas capacitaciones.</p>
+    <button id="btnAnother">Enviar otro comentario</button>
+  </div>
+
+  <footer class="formfoot">Nacersano IPS · Hospital César Uribe Piedrahíta &nbsp;·&nbsp; Encuesta anónima de retroalimentación</footer>
+</div>
+
+<script>
+// URL del Web App de Google Apps Script que envía el correo a info@nacersanoips.com
+// y guarda cada respuesta en una hoja de Google Sheets. Ver apps-script.gs en esta carpeta.
+const APPS_SCRIPT_URL = '';
+
+function clearForm(){
+  document.getElementById('q_capacitacion').value = '';
+  document.getElementById('q_positivo').value = '';
+  document.getElementById('q_reforzar').value = '';
+  document.getElementById('q_comentarios').value = '';
+  document.getElementById('err_vacio').classList.remove('show');
+}
+document.getElementById('btnClear').addEventListener('click', clearForm);
+document.getElementById('btnAnother').addEventListener('click', () => {
+  clearForm();
+  document.getElementById('formView').classList.remove('hidden');
+  document.getElementById('confirmCard').classList.add('hidden');
+});
+
+document.getElementById('btnSubmit').addEventListener('click', async () => {
+  const capacitacion = document.getElementById('q_capacitacion').value.trim();
+  const positivo = document.getElementById('q_positivo').value.trim();
+  const reforzar = document.getElementById('q_reforzar').value.trim();
+  const comentarios = document.getElementById('q_comentarios').value.trim();
+
+  if (!positivo && !reforzar && !comentarios) {
+    document.getElementById('err_vacio').classList.add('show');
+    return;
+  }
+  document.getElementById('err_vacio').classList.remove('show');
+
+  const btn = document.getElementById('btnSubmit');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  const entry = { capacitacion, positivo, reforzar, comentarios };
+
+  try {
+    if (APPS_SCRIPT_URL) {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(entry)
+      });
+    }
+    document.getElementById('formView').classList.add('hidden');
+    document.getElementById('confirmCard').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (e) {
+    alert('No se pudo enviar el comentario. Verifica tu conexión e intenta de nuevo.');
+    console.error(e);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Enviar';
+  }
+});
+</script>
+
+</body>
+</html>
